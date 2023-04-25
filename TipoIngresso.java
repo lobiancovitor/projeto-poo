@@ -1,0 +1,4 @@
+enum TipoIngresso{
+    INTEIRA,
+    MEIA
+}
