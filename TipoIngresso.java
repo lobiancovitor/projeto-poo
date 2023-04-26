@@ -1,4 +1,7 @@
 enum TipoIngresso{
     INTEIRA,
-    MEIA
+    MEIA;
 }
+
+// Implementação
+// TipoIngresso inteira = TipoIngresso.INTEIRA
