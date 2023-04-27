@@ -14,7 +14,9 @@ public abstract class Ingresso{
     @Override
     public String toString() {
         return
-            "Partida: " + this.partida + "\n" +
+            "Nome: " + this.partida.nome + "\n" +
+            "Data: " + this.partida.data + "\n" +
+            "Local: " + this.partida.local + "\n" +
             "Tipo: " + this.tipo + "\n" +
             "Assento: " + this.assento + "\n" +
             "Preço: " + this.preco + "\n"

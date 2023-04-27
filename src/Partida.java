@@ -61,6 +61,7 @@ public class Partida {
                 preco = 50;
             }
         }
+        System.out.println("Compra realizada!");
         return preco * quantidade;
     }
 }
