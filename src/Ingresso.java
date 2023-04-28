@@ -11,6 +11,10 @@ public abstract class Ingresso{
         this.preco = preco;
     }
 
+    public double getPreco() {
+        return this.preco;
+    }
+
     @Override
     public String toString() {
         return
@@ -21,10 +25,6 @@ public abstract class Ingresso{
             "Assento: " + this.assento + "\n" +
             "Preço: " + this.preco + "\n"
             ;
-    }
-
-    public double getPreco() {
-        return this.preco;
     }
 
 }

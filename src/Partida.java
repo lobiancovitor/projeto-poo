@@ -13,17 +13,6 @@ public class Partida {
         this.ingressosMeia = ingressosMeia;
     }
 
-    @Override
-    public String toString() {
-        return
-            "Nome: " + getNome() + "\n" +
-            "Data: " + getData() + "\n" +
-            "Local: " + getLocal() + "\n" +
-            "Ingressos inteira: " + this.ingressosInteira + "\n" +
-            "Ingressos meia: " + this.ingressosMeia
-            ;
-    }
-
     public String getNome() {
         return this.nome;
     }
@@ -63,5 +52,16 @@ public class Partida {
         }
         System.out.println("Compra realizada!");
         return preco * quantidade;
+    }
+    
+    @Override
+    public String toString() {
+        return
+            "Nome: " + getNome() + "\n" +
+            "Data: " + getData() + "\n" +
+            "Local: " + getLocal() + "\n" +
+            "Ingressos inteira: " + this.ingressosInteira + "\n" +
+            "Ingressos meia: " + this.ingressosMeia
+            ;
     }
 }
