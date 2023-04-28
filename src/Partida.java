@@ -49,7 +49,7 @@ public class Partida {
             return false;
         }
     }
-
+     
     public double venderIngresso(TipoIngresso tipo, int quantidade) {
         double preco = 0;
         if (isIngressoDisponivel(tipo, quantidade)) {

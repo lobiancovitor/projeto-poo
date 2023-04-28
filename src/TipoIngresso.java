@@ -3,5 +3,3 @@ enum TipoIngresso{
     MEIA;
 }
 
-// Implementação
-// TipoIngresso inteira = TipoIngresso.INTEIRA

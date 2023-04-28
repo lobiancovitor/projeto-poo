@@ -7,14 +7,6 @@ public class Assento {
         this.fila = fila;
     }
     
-    @Override
-    public String toString() {
-        return 
-            "Número: " + getNumero() + ", " +
-            "Fila: " + getFila()
-            ;
-    }
-
     public int getNumero() {
         return this.numero;
     }
@@ -22,5 +14,12 @@ public class Assento {
     public char getFila() {
         return this.fila;
     }
-    
+
+    @Override
+    public String toString() {
+        return 
+            "Número: " + getNumero() + ", " +
+            "Fila: " + getFila()
+            ;
+    }
 }
