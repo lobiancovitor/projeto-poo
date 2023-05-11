@@ -29,19 +29,21 @@ public class Partida {
         return this.ingressosInteira + this.ingressosMeia;
     }
 
-    public boolean isIngressoDisponivel(TipoIngresso tipo, int quantidade) {
-        if (tipo == TipoIngresso.INTEIRA && this.ingressosInteira >= quantidade) {
+    public boolean isIngressoDisponivel(TipoIngresso tipo) {
+        if (tipo == TipoIngresso.INTEIRA && this.ingressosInteira >= 1) {
             return true;
-        } else if (tipo == TipoIngresso.MEIA && this.ingressosMeia >= quantidade) {
+        } else if (tipo == TipoIngresso.MEIA && this.ingressosMeia >= 1) {
             return true;
         } else {
+            System.out.println("Não há ingressos disponíveis para este tipo.");
+            System.out.println("----------------------------------");
             return false;
         }
     }
      
     public double venderIngresso(TipoIngresso tipo, int quantidade) {
         double preco = 0;
-        if (isIngressoDisponivel(tipo, quantidade)) {
+        if (isIngressoDisponivel(tipo)) {
             if (tipo == TipoIngresso.INTEIRA) {
                 this.ingressosInteira -= quantidade;
                 preco = 100;

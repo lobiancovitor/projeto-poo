@@ -67,6 +67,7 @@ public class App {
     static Ingresso venderIngresso(Partida partida) {
         Scanner scanner = new Scanner(System.in);
         Ingresso ingresso = null;
+        boolean partidaDisponivel = false;
 
         if (partida == null) {
             System.out.println("\nUm ingresso deve pertencer a uma partida. Crie uma partida.");
@@ -85,6 +86,16 @@ public class App {
             System.out.println("Ingresso do tipo Meia ou Inteira? (M/I)");
             char tipoIngresso = scanner.next().toUpperCase().charAt(0);
             System.out.println("----------------------------------");
+
+            if (tipoIngresso == 'I') {
+                partidaDisponivel = partida.isIngressoDisponivel(TipoIngresso.INTEIRA);
+            } else if (tipoIngresso == 'M') {
+                partidaDisponivel = partida.isIngressoDisponivel(TipoIngresso.MEIA);
+            }
+
+            if (partidaDisponivel != true) {
+                return ingresso;
+            }
 
             System.out.println("Informações do ingresso: ");
             System.out.println("Partida: " + partida.nome + "\nData: " + partida.data + " - Local: " + partida.local + "\nFila: " + fila + " - Número: " + numero + " - Tipo: " + tipoIngresso + "\n");
