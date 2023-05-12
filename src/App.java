@@ -1,15 +1,18 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Partida partida = null;
+        TipoIngresso tipo = null;
+        ArrayList<Partida> partidas = new ArrayList<Partida>();
         Ingresso ingresso = null;
 
-        interfaceTexto(partida, ingresso, scanner);
+        interfaceTexto(partida, ingresso, scanner, partidas, tipo);
     }
  
-    static Partida cadastrarPartida() {
+    static Partida cadastrarPartida(ArrayList<Partida> partidas) {
         Scanner input = new Scanner(System.in);
 
         System.out.print("Digite o nome da partida: ");
@@ -28,27 +31,31 @@ public class App {
         int ingressosMeia = input.nextInt();
 
         Partida partida = new Partida(nome, data, local, ingressosInteira, ingressosMeia);
+        partidas.add(partida);
 
         System.out.println("\nPartida criada!");
         
         return partida;
     }
  
-    static void exibirInformacoesPartida(Partida partida) {
-        if(partida==null) {
+    static void exibirInformacoesPartida(ArrayList<Partida> partidas) {
+        if(partidas.size() <= 0) {
             System.out.println("\nAinda não existe uma partida, crie uma se necessário.");
         } else {
             System.out.println("\n----- Informações da Partida -----");
-            System.out.println(partida);
+            for (Partida partida2 : partidas) {
+                System.out.println(partida2 + "\n");
+            }
             System.out.println("----------------------------------");
         }
     }
  
-    static void exibirIngressosRestantes(Partida partida) {
-        if (partida != null) {
+    static void exibirIngressosRestantes(ArrayList<Partida> partidas) {
+        if (partidas.size() > 0) {
             System.out.println("\n------ Ingressos Restantes -------");
-            System.out.println("Inteira: " + partida.ingressosInteira);
-            System.out.println("Meia: " + partida.ingressosMeia);
+            for (Partida partida2 : partidas) {
+                System.out.println("Partida - " + partida2.nome + ": " + partida2.getIngressos());
+            };
             System.out.println("----------------------------------");
         } else {
             System.out.println("\nUm ingresso deve pertencer a uma partida. Crie uma partida.");
@@ -64,67 +71,82 @@ public class App {
         }
     }
  
-    static Ingresso venderIngresso(Partida partida) {
+    static Ingresso venderIngresso(Partida partida, ArrayList<Partida> partidas, TipoIngresso tipo) {
         Scanner scanner = new Scanner(System.in);
         Ingresso ingresso = null;
         boolean partidaDisponivel = false;
 
-        if (partida == null) {
+        if (partidas.size() <= 0) {
             System.out.println("\nUm ingresso deve pertencer a uma partida. Crie uma partida.");
             return ingresso;
         }
 
-        while (true) {
-            System.out.println("----- Escolha seu assento -----");
-            System.out.print("Informe a fila: ");
-            char fila = scanner.next().charAt(0);
-            System.out.print("Informe o número: ");
-            int numero = scanner.nextInt();
+        System.out.print("Informe o nome da partida: ");
+        boolean controle = false;
 
-            Assento assento = new Assento(numero, fila);
+        String nomePartida = scanner.nextLine();
 
-            System.out.println("Ingresso do tipo Meia ou Inteira? (M/I)");
-            char tipoIngresso = scanner.next().toUpperCase().charAt(0);
-            System.out.println("----------------------------------");
-
-            if (tipoIngresso == 'I') {
-                partidaDisponivel = partida.isIngressoDisponivel(TipoIngresso.INTEIRA);
-            } else if (tipoIngresso == 'M') {
-                partidaDisponivel = partida.isIngressoDisponivel(TipoIngresso.MEIA);
-            }
-
-            if (partidaDisponivel != true) {
-                return ingresso;
-            }
-
-            System.out.println("Informações do ingresso: ");
-            System.out.println("Partida: " + partida.nome + "\nData: " + partida.data + " - Local: " + partida.local + "\nFila: " + fila + " - Número: " + numero + " - Tipo: " + tipoIngresso + "\n");
-
-            // antes de criar o ingresso confirmar informações
-            System.out.println("Confirma informações do ingresso? (S/N)");
-            System.out.println("Digite outra coisa para voltar para a escolha de opções.");
-            char confirma = scanner.next().toUpperCase().charAt(0);
-
-            if (confirma == 'S') {
-                if (tipoIngresso == 'M') {
-                ingresso = new IngressoMeia(partida, TipoIngresso.MEIA, assento, 50);
-                partida.venderIngresso(TipoIngresso.MEIA, 1);
-                return ingresso;
+        for (Partida partida2: partidas) {
+            if (partida2.nome.equals(nomePartida)) {
+                System.out.println("----- Escolha seu assento -----");
+                System.out.print("Informe a fila: ");
+                char fila = scanner.next().charAt(0);
+                System.out.print("Informe o número: ");
+                int numero = scanner.nextInt();
+    
+                Assento assento = new Assento(numero, fila);
+    
+                System.out.println("Ingresso do tipo Meia ou Inteira? (M/I)");
+                char tipoIngresso = scanner.next().toUpperCase().charAt(0);
+                System.out.println("----------------------------------");
+    
+                if (tipoIngresso == 'I') {
+                    tipo = TipoIngresso.INTEIRA;
+                    partidaDisponivel = partida2.isIngressoDisponivel(TipoIngresso.INTEIRA);
+                } else if (tipoIngresso == 'M') {
+                    tipo = TipoIngresso.MEIA;
+                    partidaDisponivel = partida2.isIngressoDisponivel(TipoIngresso.MEIA);
                 } else {
-                ingresso = new IngressoInteira(partida, TipoIngresso.INTEIRA, assento, 100);
-                partida.venderIngresso(TipoIngresso.INTEIRA, 1);
-                return ingresso;
+                    System.out.println("Opção inválida.");
+                    break;
                 }
-            } else if (confirma == 'N') {
-                continue;
-            } else {
-                //Ingresso ingresso = null;
+    
+                if (partidaDisponivel != true) {
+                    return ingresso;
+                }
+
+                controle = true;
+    
+                System.out.println("Informações do ingresso: ");
+                System.out.println("Partida: " + partida2.nome + "\nData: " + partida2.data + " - Local: " + partida2.local + "\nFila: " + fila + " - Número: " + numero + " - Tipo: " + tipoIngresso + "\n");
+  
+                System.out.println("Confirma informações do ingresso? (S/N)");
+                System.out.println("Digite outra coisa para voltar para a escolha de opções.");
+                char confirma = scanner.next().toUpperCase().charAt(0);
+    
+                if (confirma == 'S') {
+                    if (tipoIngresso == 'I') {
+                        ingresso = new IngressoMeia(partida2, assento, 50);
+                    } else {
+                        ingresso = new IngressoInteira(partida2, assento, 100);
+                    }
+                } else {
+                    break;
+                }
+
+                partida2.venderIngresso(tipo, 1);
+                controle = true;
+                
+            } else if (!controle) {
+                System.out.println("Não existe uma partida com esse nome.");
                 return ingresso;
             }
         }
+
+        return ingresso;
     }
  
-    static void interfaceTexto(Partida partida, Ingresso ingresso, Scanner scanner) {
+    static void interfaceTexto(Partida partida, Ingresso ingresso, Scanner scanner, ArrayList<Partida> partidas, TipoIngresso tipo) {
         //Scanner scanner = new Scanner(System.in);
         System.out.println("===== SISTEMA PARA VENDA DE INGRESSOS =====");
         while (true) {
@@ -140,16 +162,16 @@ public class App {
 
             switch (opcao) {
                 case 1:
-                    partida = cadastrarPartida();
+                    partida = cadastrarPartida(partidas);
                     break;
                 case 2:
-                    ingresso = venderIngresso(partida);
+                    ingresso = venderIngresso(partida, partidas, tipo);
                     break;
                 case 3:
-                    exibirInformacoesPartida(partida);
+                    exibirInformacoesPartida(partidas);
                     break;
                 case 4:
-                    exibirIngressosRestantes(partida);
+                    exibirIngressosRestantes(partidas);
                     break;
                 case 5:
                     exibirUltimoIngresso(ingresso);
