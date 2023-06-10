@@ -1,5 +1,0 @@
-enum TipoIngresso{
-    INTEIRA,
-    MEIA;
-}
-
