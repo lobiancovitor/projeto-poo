@@ -4,7 +4,7 @@
 - [ ] Criar um método valueOf() em cada classe para transformar os tipos de acordo?
 - [ ] Receber os parâmetros já nos tipos que precisa?
 
-## TODO
+## TODO (18/06)
 
 - [ ] Substituir concatenação de Strings pelo StringBuilder;
 - [ ] Substituir informações de data por LocalDate;
