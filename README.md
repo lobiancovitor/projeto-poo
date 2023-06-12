@@ -1,4 +1,10 @@
-## Getting Started
+## ERRO
+- [ ] Métodos com manipulação de ingressos não estão funcionando.
+- [ ] Métodos adicionar e alterar em IngressoDAO. Como transformar as Strings recebidas pelo LeitoraDados em Partida e Assento?
+- [ ] Criar um método valueOf() em cada classe para transformar os tipos de acordo?
+- [ ] Receber os parâmetros já nos tipos que precisa?
+
+## TODO
 
 - [ ] Substituir concatenação de Strings pelo StringBuilder;
 - [ ] Substituir informações de data por LocalDate;
