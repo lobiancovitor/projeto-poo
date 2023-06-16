@@ -20,7 +20,6 @@ public class IngressoDAO {
 
     public IngressoDAO(String caminho) throws IOException {
         this.caminho = caminho;
-        this.importar();
         this.ingressoFactory = new IngressoFactory();
         this.ingressos = new ArrayList<>();
     }
@@ -77,15 +76,6 @@ public class IngressoDAO {
             linhas.add(ingresso.toString());
         }
         Arquivo.escrever(this.caminho, linhas);
-    }
-
-    public void importar() throws IOException {
-        List<String> linhas = Arquivo.ler(this.caminho);
-
-        for (String linha : linhas) {
-            String[] dadosIngresso = linha.split(" - ");
-            this.adicionar(dadosIngresso);
-        }
     }
 
     @Override

@@ -18,7 +18,6 @@ public class PartidaDAO {
 
     public PartidaDAO(String caminho) throws IOException {
         this.caminho = caminho;
-        this.importar();
     }
 
     public void adicionar(String[] dadosPartida) {
@@ -66,15 +65,6 @@ public class PartidaDAO {
             linhas.add(partida.toString());
         }
         Arquivo.escrever(this.caminho, linhas);
-    }
-
-    public void importar() throws IOException {
-        List<String> linhas = Arquivo.ler(this.caminho);
-
-        for (String linha : linhas) {
-            String[] dadosPartida = linha.split(" - ");
-            this.adicionar(dadosPartida);
-        }
     }
 
     @Override

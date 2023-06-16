@@ -72,8 +72,9 @@ public class Gestor {
                     System.out.println("Cadastre uma partida antes.");
                 } else {
                     System.out.print("Digite o nome da partida que deseja atualizar: ");
-                    String partidaAtualizar = this.leitora.lerTexto();
-                    if (partidaDAO.consultar(partidaAtualizar) == null) {
+                    String nomeAtualizar = this.leitora.lerTexto();
+                    Partida partidaAtualizar = this.partidaDAO.consultar(nomeAtualizar);
+                    if (partidaAtualizar == null) {
                         System.out.println("Partida não encontrada");
                     } else {
                         partidaDAO.alterar(this.leitora.atualizarPartida(partidaAtualizar));

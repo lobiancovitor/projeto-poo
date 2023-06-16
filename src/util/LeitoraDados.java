@@ -19,29 +19,55 @@ public class LeitoraDados {
         return scanner.nextLine();
     }
 
+    public String coletaData() {
+
+        StringBuilder dataSB = new StringBuilder();
+
+        System.out.print("Insira o dia da partida (dd): ");
+        String dia = scanner.nextLine();
+
+        while (!validaDataDia(dia)) {
+            System.out.print("Dia inválido.\nInsira um dia válido: ");
+            dia = scanner.nextLine();
+        }
+
+        System.out.print("Insira o mês da partida (mm): ");
+        String mes = scanner.nextLine();
+
+        while (!validaDataMes(mes)) {
+            System.out.print("Mês inválido.\nInsira um mês válido: ");
+            mes = scanner.nextLine();
+        }
+
+        System.out.print("Insira o ano da partida (yyyy): ");
+        String ano = scanner.nextLine();
+
+        while (!validaDataAno(ano)) {
+            System.out.print("Ano inválido.\nInsira um ano válido: ");
+            ano = scanner.nextLine();
+        }
+
+        dataSB.append(String.format("%02d", Integer.parseInt(dia))).append("/");
+        dataSB.append(String.format("%02d", Integer.parseInt(mes))).append("/");
+        dataSB.append(ano);
+
+        return dataSB.toString();
+    }
+
     public String[] lerNovaPartida() {
 
         String nome;
         String local;
+        String data;
         int ingressosInt;
         int ingressosMeia;
         double valor;
-        StringBuilder sb = new StringBuilder();
 
         System.out.println("Insira as informações da partida:");
         System.out.print("Nome da partida: ");
         nome = scanner.nextLine();
 
-        System.out.print("Insira o dia da partida (dd): ");
-        String dia = scanner.nextLine();
-
-        System.out.print("Insira o mês da partida (mm): ");
-        String mes = scanner.nextLine();
-
-        System.out.print("Insira o ano da partida (yyyy): ");
-        String ano = scanner.nextLine();
-
-        sb.append(dia).append("/").append(mes).append("/").append(ano);
+        data = coletaData(); 
 
         System.out.print("Local da partida: ");
         local = scanner.nextLine();
@@ -58,32 +84,22 @@ public class LeitoraDados {
         valor = scanner.nextDouble();
         scanner.nextLine();
 
-        return new String[] {nome, sb.toString(), local, Integer.toString(ingressosInt), Integer.toString(ingressosMeia), Double.toString(valor)};
+        return new String[] {nome, data, local, Integer.toString(ingressosInt), Integer.toString(ingressosMeia), Double.toString(valor)};
     
     }
 
-    public String[] atualizarPartida(String nome) {
+    public String[] atualizarPartida(Partida partida) {
 
         String local;
+        String data;
+        String nome;
         int ingressosInt;
         int ingressosMeia;
         double valor;
-        StringBuilder sb = new StringBuilder();
 
         System.out.println("Insira as novas informações para a partida:");
-        System.out.print("Nome da partida: ");
-        nome = scanner.nextLine();
 
-        System.out.print("Insira o dia da partida (dd): ");
-        String dia = scanner.nextLine();
-
-        System.out.print("Insira o mês da partida (mm): ");
-        String mes = scanner.nextLine();
-
-        System.out.print("Insira o ano da partida (yyyy): ");
-        String ano = scanner.nextLine();
-
-        sb.append(dia).append("/").append(mes).append("/").append(ano);
+        data = coletaData(); 
 
         System.out.print("Local da partida: ");
         local = scanner.nextLine();
@@ -100,7 +116,7 @@ public class LeitoraDados {
         valor = scanner.nextDouble();
         scanner.nextLine();
 
-        return new String[] {nome, sb.toString(), local, Integer.toString(ingressosInt), Integer.toString(ingressosMeia), Double.toString(valor)};
+        return new String[] {partida.getNome(), data, local, Integer.toString(ingressosInt), Integer.toString(ingressosMeia), Double.toString(valor)};
     
     }
 
@@ -145,6 +161,36 @@ public class LeitoraDados {
         }
 
         return new String[] {partidaVenda.toString(), tipo.toString(), assento.toString()};
+    }
+
+    public boolean validaDataDia(String dia) {
+        int diaInt;
+        try {
+            diaInt = Integer.parseInt(dia);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return diaInt >= 1 && diaInt <= 31;
+    }
+
+    public boolean validaDataMes(String mes) {
+        int mesInt;
+        try {
+            mesInt = Integer.parseInt(mes);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return mesInt >= 1 && mesInt <= 12;
+    }
+
+    public boolean validaDataAno(String ano) {
+        int anoInt;
+        try {
+            anoInt = Integer.parseInt(ano);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return anoInt >= 999;
     }
 
 }
