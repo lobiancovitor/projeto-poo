@@ -92,7 +92,6 @@ public class LeitoraDados {
 
         String local;
         String data;
-        String nome;
         int ingressosInt;
         int ingressosMeia;
         double valor;
