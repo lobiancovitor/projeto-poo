@@ -5,7 +5,7 @@ import entidades.Partida;
 
 public class IngressoFactory {
 
-    public Ingresso novoIngresso(Partida partida, TipoIngresso tipoIngresso, Assento assento) {
+    public static Ingresso novoIngresso(Partida partida, TipoIngresso tipoIngresso, Assento assento) {
         if (tipoIngresso == null) {
             return null;
         }
@@ -33,12 +33,3 @@ public class IngressoFactory {
         }
     }
 }
-
-/*
-Implementação:
-IngressoFactory ingressoFactory = new IngressoFactory();
-Ingresso ingresso = ingressoFactory.novoIngresso(tipoIngresso, partida, assento);
-...
-...
-...
-*/

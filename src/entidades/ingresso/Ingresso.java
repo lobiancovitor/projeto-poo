@@ -30,6 +30,14 @@ public abstract class Ingresso {
         return this.preco;
     }
 
+    public Partida getPartida() {
+        return this.partida;
+    }
+
+    public Assento getAssento() {
+        return this.assento;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -50,8 +58,11 @@ public abstract class Ingresso {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        
-        sb.append("Partida: ").append(this.partida.getNome()).append("\nAssento: ").append(this.assento).append("\nTipo: ").append(this.tipo).append("\nValor (R$): ").append(this.getPreco());
+
+        sb.append("Partida: ").append(this.partida.getNome()).append("\n");
+        sb.append("Assento: ").append(this.assento.toString()).append("\n");
+        sb.append("Tipo: ").append(this.tipo).append("\n");
+        sb.append("Valor (R$): ").append(this.getPreco()).append("\n");
 
         return sb.toString();
     }

@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import entidades.Assento;
 import entidades.Partida;
+import entidades.ingresso.Ingresso;
+import entidades.ingresso.IngressoFactory;
 import entidades.ingresso.TipoIngresso;
 
 public class LeitoraDados {
@@ -30,13 +32,55 @@ public class LeitoraDados {
         System.out.print("Nome da partida: ");
         nome = scanner.nextLine();
 
-        System.out.print("Insira o dia da partida: ");
+        System.out.print("Insira o dia da partida (dd): ");
         String dia = scanner.nextLine();
 
-        System.out.print("Insira o mês da partida: ");
+        System.out.print("Insira o mês da partida (mm): ");
         String mes = scanner.nextLine();
 
-        System.out.print("Insira o ano da partida: ");
+        System.out.print("Insira o ano da partida (yyyy): ");
+        String ano = scanner.nextLine();
+
+        sb.append(dia).append("/").append(mes).append("/").append(ano);
+
+        System.out.print("Local da partida: ");
+        local = scanner.nextLine();
+
+        System.out.print("Número de ingressos tipo inteira: ");
+        ingressosInt = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Número de ingressos tipo meia: ");
+        ingressosMeia = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Valor do ingresso: ");
+        valor = scanner.nextDouble();
+        scanner.nextLine();
+
+        return new String[] {nome, sb.toString(), local, Integer.toString(ingressosInt), Integer.toString(ingressosMeia), Double.toString(valor)};
+    
+    }
+
+    public String[] atualizarPartida(String nome) {
+
+        String local;
+        int ingressosInt;
+        int ingressosMeia;
+        double valor;
+        StringBuilder sb = new StringBuilder();
+
+        System.out.println("Insira as novas informações para a partida:");
+        System.out.print("Nome da partida: ");
+        nome = scanner.nextLine();
+
+        System.out.print("Insira o dia da partida (dd): ");
+        String dia = scanner.nextLine();
+
+        System.out.print("Insira o mês da partida (mm): ");
+        String mes = scanner.nextLine();
+
+        System.out.print("Insira o ano da partida (yyyy): ");
         String ano = scanner.nextLine();
 
         sb.append(dia).append("/").append(mes).append("/").append(ano);
@@ -67,13 +111,23 @@ public class LeitoraDados {
         TipoIngresso tipo;
         int numeroAssento;
         Assento assento;
-        
-        System.out.print("Letra do assento: ");
-        letraAssento = scanner.next().charAt(0);
-        System.out.print("Número do assento: ");
-        numeroAssento = scanner.nextInt();
-        scanner.nextLine();
-        assento = new Assento(numeroAssento, letraAssento);
+
+        while (true) {
+            System.out.print("Letra do assento: ");
+            letraAssento = scanner.next().charAt(0);
+            System.out.print("Número do assento: ");
+            numeroAssento = scanner.nextInt();
+            scanner.nextLine();
+            assento = new Assento(numeroAssento, letraAssento);
+
+            if (partidaVenda.assentoOcupado(assento)) {
+                System.out.println("Assento já ocupado, informe outro.");
+                continue;
+            } else {
+                break;
+            }
+
+        }
 
         System.out.print("O seu ingresso é meia (s/n)? ");
         opcaoIngresso = scanner.nextLine();
@@ -83,7 +137,12 @@ public class LeitoraDados {
         } else {
             tipo = TipoIngresso.INTEIRA;
         }
-        partidaVenda.venderIngresso(tipo);
+
+        if (partidaVenda.venderIngresso(tipo)) {
+            Ingresso ingresso = IngressoFactory.novoIngresso(partidaVenda, tipo, assento);
+        
+            partidaVenda.addIngresso(ingresso);
+        }
 
         return new String[] {partidaVenda.toString(), tipo.toString(), assento.toString()};
     }

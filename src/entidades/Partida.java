@@ -1,6 +1,7 @@
 package entidades;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +55,18 @@ public class Partida {
         this.ingressos = ingressos;
     }
 
+    public int getIngressoMeia() {
+        return this.ingressosMeia;
+    }
+
+    public int getIngressoInteira() {
+        return this.ingressosInteira;
+    }
+
+    public List<Ingresso> getAllIngressos() {
+        return this.ingressos;
+    }
+
     public void addIngresso(Ingresso ingresso) {
         this.ingressos.add(ingresso);
     }
@@ -76,7 +89,7 @@ public class Partida {
         return quantidade <= this.ingressosMeia;
     }
 
-    public void venderIngresso(TipoIngresso tipo) {
+    public boolean venderIngresso(TipoIngresso tipo) {
         if (this.isIngressoDisponivel(tipo, 1)) {
             if (tipo == TipoIngresso.INTEIRA) {
                 this.ingressosInteira--;
@@ -84,9 +97,20 @@ public class Partida {
                 this.ingressosMeia--;
             }
             System.out.println("Ingresso vendido!");
+            return true;
         } else {
             System.out.println("Não há ingressos disponíveis!");
+            return false;
         }
+    }
+
+    public boolean assentoOcupado(Assento assento) {
+        for (Ingresso ingresso : ingressos) {
+            if (ingresso.getAssento().equals(assento)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -109,13 +133,77 @@ public class Partida {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        
-        sb.append("Partida: ").append(this.getNome()).append("\nData: ").append(this.getData()).append("\nLocal: ").append(this.getLocal()).append("\nValor (R$): ").append(this.getValorIngresso()).append("\nIngressos disponíveis: ").append(this.getIngressos());
+
+        sb.append("Partida: ").append(this.getNome()).append("\n");
+        sb.append("Data: ").append(this.getData()).append("\n");
+        sb.append("Local: ").append(this.getLocal()).append("\n");
+        sb.append("Valor: R$ ").append(this.getValorIngresso()).append("\n");
+        sb.append("Ingressos meia: ").append(this.getIngressoMeia()).append("\n");
+        sb.append("Ingressos inteira: ").append(this.getIngressoInteira()).append("\n");
+
+        List<Ingresso> ingressos = this.getAllIngressos();
+        if (ingressos.isEmpty()) {
+            sb.append("Ingressos ainda não foram vendidos para esta partida\n");
+        } else {
+            sb.append("\nIngressos vendidos:\n\n");
+
+            for (Ingresso ingresso : ingressos) {
+                sb.append(ingresso.toString()).append("\n");
+            }
+        }
 
         return sb.toString();
     }
 
-    public static Partida valueOf(String string) {
-        return null;
+    public static Partida valueOf(String dadosPartida) {
+        String[] separa = dadosPartida.split("\n");
+
+        String nome = "";
+        LocalDate dataL = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String local = "";
+        double valor = 0.0;
+        int ingressosMeia = 0;
+        int ingressosInteira = 0;
+        int contador = 0;
+
+        for (String linha: separa) {
+            if (contador >= 5) {
+            break;
+            }
+
+            String[] partes = linha.split(":");
+            String chave = partes[0].trim();
+
+            if (partes.length > 1) {
+                String valorStr = partes[1].trim();
+
+                switch (chave) {
+                    case "Partida":
+                        nome = valorStr;
+                        break;
+                    case "Data":
+                        dataL = LocalDate.parse(valorStr, formatter);
+                        break;
+                    case "Local":
+                        local = valorStr;
+                        break;
+                    case "Valor (R$)":
+                        valor = Double.parseDouble(valorStr);
+                        break;
+                    case "Ingressos meia":
+                        ingressosMeia = Integer.parseInt(valorStr);
+                        break;
+                    case "Ingressos inteira":
+                        ingressosInteira = Integer.parseInt(valorStr);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            contador++;
+        }
+
+        return new Partida(nome, dataL, local, ingressosInteira, ingressosMeia, valor);
     }
 }

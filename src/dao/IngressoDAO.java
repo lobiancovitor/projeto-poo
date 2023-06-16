@@ -13,7 +13,7 @@ import entidades.ingresso.TipoIngresso;
 import util.Arquivo;
 
 public class IngressoDAO {
-    private List<Ingresso> ingressos = new ArrayList<>();
+    private List<Ingresso> ingressos;
     private String caminho;
     Ingresso ingresso;
     IngressoFactory ingressoFactory;
@@ -22,25 +22,27 @@ public class IngressoDAO {
         this.caminho = caminho;
         this.importar();
         this.ingressoFactory = new IngressoFactory();
+        this.ingressos = new ArrayList<>();
     }
 
-    public void adicionar(String[] dadosIngresso) { // ?????????????????????????? Como String -> Partida/ Assento?
+    public void adicionar(String[] dadosIngresso) {
         Partida partida = Partida.valueOf(dadosIngresso[0]);
         TipoIngresso tipoIngresso = TipoIngresso.valueOf(dadosIngresso[1]);
         Assento assento = Assento.valueOf(dadosIngresso[2]);
 
-        ingresso = ingressoFactory.novoIngresso(partida, tipoIngresso, assento);
+        ingresso = IngressoFactory.novoIngresso(partida, tipoIngresso, assento);
         if(!this.ingressos.contains(ingresso)) {
             this.ingressos.add(ingresso);
         }
     }
 
-    public void alterar(String[] dadosIngresso) { // ??????????????????????????
+    public void alterar(String[] dadosIngresso) {
         Partida partida = Partida.valueOf(dadosIngresso[0]);
         TipoIngresso tipoIngresso = TipoIngresso.valueOf(dadosIngresso[1]);
         Assento assento = Assento.valueOf(dadosIngresso[2]);
 
-        Ingresso ingresso = ingressoFactory.novoIngresso(partida, tipoIngresso, assento);
+        Ingresso ingresso = IngressoFactory.novoIngresso(partida, tipoIngresso, assento);
+        
         int posicao = this.ingressos.indexOf(ingresso);
         if (posicao >= 0) {
             this.ingressos.set(posicao, ingresso);

@@ -14,7 +14,7 @@ public class PartidaDAO {
 
     private List<Partida> partidas = new ArrayList<>();
     private String caminho;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public PartidaDAO(String caminho) throws IOException {
         this.caminho = caminho;
@@ -25,6 +25,8 @@ public class PartidaDAO {
         Partida partida = new Partida(dadosPartida[0], LocalDate.parse(dadosPartida[1], dtf), dadosPartida[2], Integer.parseInt(dadosPartida[3]), Integer.parseInt(dadosPartida[4]), Double.parseDouble(dadosPartida[5]));
         if(!this.partidas.contains(partida)) {
             this.partidas.add(partida);
+        } else {
+            System.out.println("\nJá existe uma partida com esse nome.");
         }
     }
 
@@ -80,7 +82,7 @@ public class PartidaDAO {
         StringBuilder sb = new StringBuilder();
         for (Partida partida : this.partidas) {
             sb.append(partida);
-            sb.append("\n\n");
+            sb.append("\n");
         }
         return sb.toString();
     }

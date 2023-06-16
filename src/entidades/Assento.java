@@ -21,12 +21,30 @@ public class Assento {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         
-        sb.append(this.getFila()).append(Integer.toString(this.getNumero()));
+        sb.append(this.getFila()).append(":");
+        sb.append(Integer.toString(this.getNumero()));
 
         return sb.toString();
     }
 
-    public static Assento valueOf(String string) {
-        return null;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Assento)) {
+            return false;
+        }
+        Assento assento = (Assento) obj;
+        return assento.numero == this.numero && assento.fila == this.fila;
+
+    }
+
+    public static Assento valueOf(String dadosAssento) {
+        String[] partes = dadosAssento.split(":");
+        int num = Integer.parseInt(partes[1]);
+        char fil = partes[0].charAt(0);
+        
+        return new Assento(num, fil);
     }
 }
